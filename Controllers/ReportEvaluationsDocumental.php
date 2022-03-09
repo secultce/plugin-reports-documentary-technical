@@ -2,14 +2,10 @@
 
 namespace Report\Controllers;
 
-require_once PLUGINS_PATH . '/Report/services/ReportLib.php';
-require_once PLUGINS_PATH . '/Report/services/GenerationJSONFile.php';
 require_once PLUGINS_PATH . '/Report/database/DocumentalDB.php';
 
 use MapasCulturais\App;
 use MapasCulturais\i;
-use ReportLib;
-use GenerationJSONFile;
 use DocumentalDB;
 
 class ReportEvaluationsDocumental extends \MapasCulturais\Controller
@@ -21,63 +17,50 @@ class ReportEvaluationsDocumental extends \MapasCulturais\Controller
     public function ALL_reportDocumental()
     {
 
-
         $app = App::i();
 
+        $formatFile = isset($this->data['fileFormat']) ? $this->data['fileFormat'] : 'pdf';
+        date_default_timezone_set('America/Fortaleza');
+        $today = date("d-m-Y H:i:s");
         $opportunityId = (int) $this->data['id'];
-        $format = isset($this->data['fileFormat']) ? $this->data['fileFormat'] : 'pdf';
-        $date = isset($this->data['publishDate']) ? $this->data['publishDate'] : date("d/m/Y");
-        $datePublish = date("d/m/Y", strtotime($date));
-        $opportunity =  $app->repo("Opportunity")->find($opportunityId);
-
-        $doc = new DocumentalDB();
-
-        $evaluations = $doc->OpportuntyReport(32123);
-
-        $json_array = [];
+        $documentalDB = new DocumentalDB();
+        $evaluations = $documentalDB->OpportuntyReport($opportunityId);
+        $data_array_oportunity = [];
         foreach ($evaluations as $e) {
-
+            $opportunity_name = $e['nome_da_oportunidade'];
             $registration = $e['id_inscricao'];
+            $nameParcipant = $e['proponente'];
+            $city = $e['municipio'];
             $evaluationData = $e['evaluation_data'];
-            $resultado = (array)json_decode($evaluationData);
+            $data = (array)json_decode($evaluationData);
             $projectName = $e['projeto'];
-            $descumprimentoDosItens = (string) array_reduce($resultado, function ($motivos, $item) {
+            $result = (string) array_reduce($data, function ($r, $item) {
+                return $item->evaluation;
+            });
+            $reason = (string) array_reduce($data, function ($motivos,  $item) {
                 if ($item->evaluation == 'invalid') {
                     $motivos .= trim($item->obs_items);
                 }
-
                 return $motivos;
             });
+            $finishResult = ($result == 'valid') ? 'HABILITADO' : 'INABILITADO';
+            $categoria = $e['categoria'];
 
-            $categoria = $registration->category;
-            $agentRelations = $app->repo('RegistrationAgentRelation')->findBy(['owner' => $registration]);
-            $coletivo = null;
-            if ($agentRelations) {
-                $coletivo = $agentRelations[0]->agent->nomeCompleto;
-            }
-            $proponente = $registration->owner->nomeCompleto;
-            if (strpos($categoria, 'JURÍDICA') && $coletivo !== null) {
-                $proponente = $coletivo;
-            }
-            $json_array[] = [
-                'n_inscricao' => $registration->number,
+            $data_array_oportunity[] = [
+                'format_file' => $formatFile,
+                'data_relatorio' => $today,
+                'id_oportunidade' => $opportunityId,
+                'nome_da_oportunidade' => $opportunity_name,
+                'n_inscricao' => $registration,
                 'projeto' => $projectName,
-                'proponente' => trim($proponente),
+                'proponente' => $nameParcipant,
                 'categoria' => $categoria,
-                'municipio' => trim($registration->owner->En_Municipio),
-                //'resultado' => ($result == 'Válida') ? 'HABILITADO' : 'INABILITADO',
-                'motivo_inabilitacao' => $descumprimentoDosItens,
+                'municipio' => $city,
+                'resultado' => $finishResult,
+                'motivo_inabilitacao' => $reason,
             ];
         }
-
-        $publish = (array)$app->repo("Opportunity")->findOpportunitiesWithDateByIds($opportunityId);
-        $driver = 'json';
-        $data_divulgacao = $datePublish;
-        $nome_edital = $publish[0]['name'];
-        $query = null;
-        $params = [
-            "data_divulgacao" => $data_divulgacao,
-            "nome_edital" => $nome_edital,
-        ];
+        var_dump($data_array_oportunity);
+        return $data_array_oportunity;
     }
 }
