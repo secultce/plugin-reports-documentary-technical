@@ -7,7 +7,7 @@ use Dompdf\Dompdf;
 
 class DomPdfLib
 {
-    public function GenerationPDF()
+    public function GenerationPDF($reportName)
     {
         $dompdf = new Dompdf(["enable_remote" => true]);
 
@@ -22,6 +22,6 @@ class DomPdfLib
 
         $dompdf->render();
 
-        $dompdf->stream("file.pdf");
+        $dompdf->stream($reportName);
     }
 }

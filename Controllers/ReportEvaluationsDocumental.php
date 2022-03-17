@@ -19,7 +19,9 @@ class ReportEvaluationsDocumental extends \MapasCulturais\Controller
     {
 
         $app = App::i();
+        $opportunityId = $this->data['id'];
+        $reportName = "resultado_documental_oportunidade_$opportunityId";
         $dom = new DomPdfLib();
-        return  $dom->GenerationPDF();
+        return  $dom->GenerationPDF($reportName);
     }
 }
