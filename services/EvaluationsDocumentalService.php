@@ -51,7 +51,7 @@ class EvaluationsDocumentalService
         $data_array_oportunity = [];
         foreach ($evaluations as $e) {
             $opportunity_name = $e['nome_da_oportunidade'];
-            $registration = $e['id_inscricao'];
+            $registration = $e['num_inscricao'];
             $nameParcipant = $e['proponente'];
             $city = $e['municipio'];
             $evaluationData = $e['evaluation_data'];
