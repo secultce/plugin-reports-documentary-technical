@@ -8,7 +8,6 @@ use MapasCulturais\i;
 
 $evaluationsDocumentalService = new DocumentalService();
 $evaluationsData = $evaluationsDocumentalService->DataOportunityReport();
-
 ?>
 <html>
 
@@ -73,7 +72,7 @@ $evaluationsData = $evaluationsDocumentalService->DataOportunityReport();
         </h5>
         <h5 style="margin: 10px"><?php echo $evaluationsData[0]['nome_da_oportunidade'] ?></h5>
         <h5 style="margin: 10px">LISTA DE HABILITADOS E NÃO HABILITADOS</h5>
-        <img class="img-responsive" alt="" src="https://raw.githubusercontent.com/secultce/plugin-reports-documentary-technical/feature/dom-pdf/assets/img/secult.png?token=GHSAT0AAAAAABR374C5K7PNF3AXHQV7AZUYYRSVYMA" />
+        <!-- <img class="img-responsive" alt="" src="https://raw.githubusercontent.com/secultce/plugin-reports-documentary-technical/feature/dom-pdf/assets/img/secult.png?token=GHSAT0AAAAAABR374C5K7PNF3AXHQV7AZUYYRSVYMA" /> -->
     </div>
     <div>
 
