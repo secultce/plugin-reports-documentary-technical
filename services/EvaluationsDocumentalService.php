@@ -47,6 +47,17 @@ class EvaluationsDocumentalService
         $stmt = $app->em->getConnection()->prepare($sql_query);
         $stmt->execute();
         $evaluations = $stmt->fetchAll();
+        $url = "https://mapacultural.secult.ce.gov.br/oportunidade/{$opportunityId}";
+        $url_dev = "http://localhost:8080/oportunidade/{$opportunityId}#/tab=inscritos";
+        if (empty($evaluations)) {
+            echo "<script>
+            alert('Não existe resultado para essa oportunidade, pois não há nenhuma inscrição avaliada!');
+            window.location.href = '{$url}';
+            </script>";
+            die();
+        }
+
+
         $today = date("d-m-Y H:i:s");
         $data_array_oportunity = [];
         foreach ($evaluations as $e) {

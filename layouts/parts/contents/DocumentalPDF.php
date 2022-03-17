@@ -8,6 +8,7 @@ use MapasCulturais\i;
 
 $evaluationsDocumentalService = new DocumentalService();
 $evaluationsData = $evaluationsDocumentalService->DataOportunityReport();
+
 ?>
 <html>
 
