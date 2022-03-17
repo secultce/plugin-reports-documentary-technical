@@ -72,7 +72,7 @@ $evaluationsData = $evaluationsDocumentalService->DataOportunityReport();
         </h5>
         <h5 style="margin: 10px"><?php echo $evaluationsData[0]['nome_da_oportunidade'] ?></h5>
         <h5 style="margin: 10px">LISTA DE HABILITADOS E NÃO HABILITADOS</h5>
-        <img class="img-responsive" alt="" src="https://mapacultural.secult.ce.gov.br/files/secult.png" />
+        <!-- <img class="img-responsive" alt="" src="https://mapacultural.secult.ce.gov.br/files/secult.png" /> -->
     </div>
     <div>
 
