@@ -28,6 +28,7 @@ class Plugin extends \MapasCulturais\Plugin
             $type_evaluation = $opportunity->evaluationMethodConfiguration->getDefinition()->slug;
             if ($type_evaluation == 'documentary') {
                 $opportunity = $this->controller->requestedEntity;
+
                 $this->part('reports/ReportButton', ['entity' => $opportunity]);
             }
         });
