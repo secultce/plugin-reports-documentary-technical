@@ -16,7 +16,7 @@ class PhpSpreadsheetLib
         require __DIR__ . './../layouts/parts/contents/DocumentalPDF.php';
         $spreadsheet = $reader->loadFromString(ob_get_clean());
         $filename = $reportName . ".xls";
-        $filePath = __DIR__ . DIRECTORY_SEPARATOR . $filename;
+        $filePath = fopen(__DIR__ . DIRECTORY_SEPARATOR . $filename, 'w');
         $writer = IOFactory::createWriter($spreadsheet, 'Xls');
         $writer->save($filePath);
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
