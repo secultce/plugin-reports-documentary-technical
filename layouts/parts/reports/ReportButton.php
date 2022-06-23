@@ -18,7 +18,7 @@ $route = App::i()->createUrl('reportEvaluationDocumental', 'reportDocumental', [
         <label for="from">Formato</label>
         <select name="fileFormat" id="fileFormat">
             <option value="pdf" selected>PDF</option>
-            <option value="xls">XLS - Excel</option>
+            <!-- <option value="xls">XLS - Excel</option> -->
             <!-- <option value="docx">DOC</option> -->
         </select>
         <button class="btn btn-primary download" type="submit">Imprimir Resultado</button>
